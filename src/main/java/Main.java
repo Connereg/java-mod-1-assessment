@@ -12,43 +12,44 @@ class TryAgainContainer {
     public boolean bool;
 }
 
-
 public class Main {
     public static void main(String[] args) {
-        // Runnable[] rulesetArray = {
-        //     Main::ruleset1, Main::ruleset2, Main::ruleset3
-        // };
+        
+        //Array of runnable methods each with a difficulty insrtuction list
+        Runnable[] rulesetArray = {
+            Main::ruleset1, Main::ruleset2, Main::ruleset3
+        };
 
         //Start Game with a standard greeting for all players
         System.out.println("___________________________________");
         System.out.println("Hello Traveler! I want to play a guessing game with you, let us take a look at the different kinds of rules we can play by!");
         TryAgainContainer tryAgainOption = new TryAgainContainer();
 
-        Scanner tryAgainScanner = new Scanner(System.in);
+        Scanner scanner = new Scanner(System.in);
         tryAgainOption.bool = true;
         
         while (tryAgainOption.bool == true) {
         //(Path: AB) - (Path:A) Create Difficulty Option Selection + (Path B:) Explanation of the Different Rules for each Game
             difficultyOptionSelector();
-            Scanner difficultyScanner = new Scanner(System.in);
-            int difficultyInput = difficultyScanner.nextInt();
+            int difficultyInput = scanner.nextInt(); 
 
             //(Path:B1) Ask for difficulty type to explain + return Explanation for that rulset
             if (difficultyInput == 1) {
                 //Ruleset Explantion Selector
                 difficultyExplanationSelector();
-                Scanner rulesetSelectionScanner = new Scanner(System.in);
-                int rulesetMenuInput = rulesetSelectionScanner.nextInt();
+                int rulesetMenuInput = scanner.nextInt();
                 
                 switch (rulesetMenuInput) {
                     case 1:
-                        ruleset1();
+                        rulesetArray[0].run();  
                         break;
                     case 2:
-                        ruleset2();
+                        rulesetArray[1].run();
                         break;
                     case 3:
-                        ruleset3();
+                        rulesetArray[2].run();
+                        break;
+                    case 4:
                         break;
                     default:
                         invalidInputError2();
@@ -70,18 +71,30 @@ public class Main {
                     System.out.println("What number will you choose? (1-10): ");
                     System.out.println("___________________________________");
                     // TIME FOR GAME FUNCTION: EASYMODE
-                    Scanner easyUserInputScanner = new Scanner(System.in);
-                    easyUserInputNum = easyUserInputScanner.nextInt();
+
+                    try {
+                        easyUserInputNum = scanner.nextInt();
+                    }
+                    catch (Exception e) {
+                        invalidInputError();
+                        scanner.next();
+                        continue;
+                    }
                     tryUserNumberValidity(easyUserInputNum, acceptableNumber2);
                 }
                 DealerNumContainer dealerNumber1 = new DealerNumContainer();
                 randomNumberGenerator(dealerNumber1);
                 comparisonEvaluator(difficultyInput, dealerNumber1.number, easyUserInputNum);
-                int tryAgainSelectionNum = tryAgainScanner.nextInt(); 
+                playAgainInstructions(); 
+                int tryAgainSelectionNum = 0;
+                try {
+                    tryAgainSelectionNum = scanner.nextInt();
+                }
+                catch (Exception e) {
+                    scanner.next();
+                }
                 tryAgainFunc(tryAgainSelectionNum, tryAgainOption);
-                
-                
-                
+
             }
             else if (difficultyInput == 3) {
                 //Medium Mode
@@ -97,15 +110,30 @@ public class Main {
                     System.out.println("What number will you choose? (1-10): ");
                     System.out.println("___________________________________");
                     // TIME FOR GAME FUNCTION: MEDIUMMODE
-                    Scanner mediumUserInputScanner = new Scanner(System.in);
-                    mediumUserInputNum = mediumUserInputScanner.nextInt();
+                    
+                    try {
+                        mediumUserInputNum = scanner.nextInt();
+                    }
+                    catch (Exception e) {
+                        invalidInputError();
+                        scanner.next();
+                        continue;
+                    }
                     tryUserNumberValidity(mediumUserInputNum, acceptableNumber3);
                 }
                 DealerNumContainer dealerNumber2 = new DealerNumContainer();
                 randomNumberGenerator(dealerNumber2);
                 comparisonEvaluator(difficultyInput, dealerNumber2.number, mediumUserInputNum);
-                int tryAgainSelectionNum = tryAgainScanner.nextInt();
+                playAgainInstructions();
+                int tryAgainSelectionNum = 0;
+                try {
+                    tryAgainSelectionNum = scanner.nextInt();
+                }
+                catch (Exception e) {
+                    scanner.next();
+                }
                 tryAgainFunc(tryAgainSelectionNum, tryAgainOption);
+                    
 
             }
             else if (difficultyInput == 4) {
@@ -122,16 +150,31 @@ public class Main {
                     System.out.println("What number will you choose? (1-10): ");
                     System.out.println("___________________________________");
                     // TIME FOR GAME FUNCTION: HARDMODE
-                    Scanner hardUserInputScanner = new Scanner(System.in);
-                    hardUserInputNum = hardUserInputScanner.nextInt();
+
+                    try {
+                        hardUserInputNum = scanner.nextInt();
+                    }
+                    catch (Exception e) {
+                        invalidInputError();
+                        scanner.next();
+                        continue;
+                    }
                     tryUserNumberValidity(hardUserInputNum, acceptableNumber4);
                 }
                 DealerNumContainer dealerNumber3 = new DealerNumContainer();
                 randomNumberGenerator(dealerNumber3);
                 comparisonEvaluator(difficultyInput, dealerNumber3.number, hardUserInputNum);
-                int tryAgainSelectionNum = tryAgainScanner.nextInt();
+                //Restart Game Function
+                playAgainInstructions();
+                int tryAgainSelectionNum = 0;
+                try {
+                    tryAgainSelectionNum = scanner.nextInt();
+                }
+                catch (Exception e) {
+                    invalidInputError();
+                    scanner.next();
+                }           
                 tryAgainFunc(tryAgainSelectionNum, tryAgainOption);
-
             }
             else {
                 invalidInputError();
@@ -151,6 +194,7 @@ public class Main {
 
         //(Path: A6 -> AB OR EXIT) Asks user if they would like to restart the game, answer dictates either loop or EXIT program)
         }
+        scanner.close();
 
     } //MAIN END
 
@@ -218,12 +262,12 @@ public class Main {
                 System.out.println("Drats! You have picked " + finalPlayerNum + " and I picked " + finalDealerNum + "...");
                 System.out.println("You foiled me! your number is greater than or equal to my number.");
                 System.out.println("YOU WIN!");
-                playAgainInstructions();
+                
             }
             else {
                 System.out.println("HA! Nice try, but you picked " + finalPlayerNum + " and I picked " + finalDealerNum + "!");
                 System.out.println("Looks like YOU LOST! But fear not, you can always try again if your feeling lucky!");
-                playAgainInstructions();
+                
             }
         }
         else if (difficultyModeSelected == 3) {
@@ -231,12 +275,10 @@ public class Main {
                 System.out.println("Drats! You have picked " + finalPlayerNum + " and I picked " + finalDealerNum + "...");
                 System.out.println("You foiled me! your number is greater than my number.");
                 System.out.println("YOU WIN!");
-                playAgainInstructions();
             }
             else {
                 System.out.println("HA! Nice try, but you picked " + finalPlayerNum + " and I picked " + finalDealerNum + "!");
-                System.out.println("Looks like YOU LOST! But fear not, you can always try again if your feeling lucky!");
-                playAgainInstructions();  
+                System.out.println("Looks like YOU LOST! But fear not, you can always try again if your feeling lucky!"); 
             }
         }
         else if (difficultyModeSelected == 4) {
@@ -244,13 +286,11 @@ public class Main {
                 System.out.println("Drats! You have picked " + finalPlayerNum + " and I picked " + finalDealerNum + "...");
                 System.out.println("You foiled me! your number is exactly equal to my number.");
                 System.out.println("YOU WIN!");
-                playAgainInstructions();
 
             }
             else {
                 System.out.println("HA! Nice try, but you picked " + finalPlayerNum + " and I picked " + finalDealerNum + "!");
                 System.out.println("Looks like YOU LOST! But fear not, you can always try again if your feeling lucky!");
-                playAgainInstructions(); 
             }
         }
         else {
@@ -276,6 +316,9 @@ public class Main {
             System.out.println("Thanks for playing! Wishing you the best of luck in the future!");
             tryAgainOption.bool = false;
         }
+        else {
+            invalidInputError2();
+        }
     }
     public static void playAgainInstructions() {
         System.out.println("________________________");
@@ -286,4 +329,3 @@ public class Main {
     }
 } //END OF FILE
 
-//
