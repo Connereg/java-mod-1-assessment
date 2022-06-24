@@ -4,6 +4,10 @@ class DealerNumContainer {
     public int number;
 }
 
+class AcceptableNumberContainer {
+    public boolean bool;
+}
+
 class TryAgainContainer {
     public boolean bool;
 }
@@ -11,7 +15,12 @@ class TryAgainContainer {
 
 public class Main {
     public static void main(String[] args) {
+        // Runnable[] rulesetArray = {
+        //     Main::ruleset1, Main::ruleset2, Main::ruleset3
+        // };
+
         //Start Game with a standard greeting for all players
+        System.out.println("___________________________________");
         System.out.println("Hello Traveler! I want to play a guessing game with you, let us take a look at the different kinds of rules we can play by!");
         TryAgainContainer tryAgainOption = new TryAgainContainer();
 
@@ -41,21 +50,30 @@ public class Main {
                     case 3:
                         ruleset3();
                         break;
+                    default:
+                        invalidInputError2();
+                        break;
                 }
             }
             
             else if (difficultyInput == 2) {
                 //Easy Mode
-                System.out.println("___________________________________");
-                System.out.println("I see you have chosen Easy mode! Looks like someone likes to win ;) ");
-                System.out.println("I will now think of a number between 1 and 10 and keep it hidden from you...");
-                System.out.println("Ah yes. This number will do well I think!");
-                System.out.println("Now it is time to guess! You must give me a number greater than or equal to my number!");
-                System.out.println("What number will you choose? (1-10): ");
-                System.out.println("___________________________________");
-                // TIME FOR GAME FUNCTION: EASYMODE
-                Scanner easyUserInputScanner = new Scanner(System.in);
-                int easyUserInputNum = easyUserInputScanner.nextInt();
+                AcceptableNumberContainer acceptableNumber2 = new AcceptableNumberContainer();
+                acceptableNumber2.bool = true;
+                int easyUserInputNum = 0;
+                while (acceptableNumber2.bool == true) {
+                    System.out.println("___________________________________");
+                    System.out.println("I see you have chosen Easy mode! Looks like someone likes to win ;) ");
+                    System.out.println("I will now think of a number between 1 and 10 and keep it hidden from you...");
+                    System.out.println("Ah yes. This number will do well I think!");
+                    System.out.println("Now it is time to guess! You must give me a number greater than or equal to my number!");
+                    System.out.println("What number will you choose? (1-10): ");
+                    System.out.println("___________________________________");
+                    // TIME FOR GAME FUNCTION: EASYMODE
+                    Scanner easyUserInputScanner = new Scanner(System.in);
+                    easyUserInputNum = easyUserInputScanner.nextInt();
+                    tryUserNumberValidity(easyUserInputNum, acceptableNumber2);
+                }
                 DealerNumContainer dealerNumber1 = new DealerNumContainer();
                 randomNumberGenerator(dealerNumber1);
                 comparisonEvaluator(difficultyInput, dealerNumber1.number, easyUserInputNum);
@@ -67,16 +85,22 @@ public class Main {
             }
             else if (difficultyInput == 3) {
                 //Medium Mode
-                System.out.println("___________________________________");
-                System.out.println("I see you have chosen Medium mode! This may be harder than you think! ");
-                System.out.println("I will now think of a number between 1 and 10 and keep it hidden from you...");
-                System.out.println("Ah yes. This number will do well I think!");
-                System.out.println("Now it is time to guess! You must give me a number strictly greater than my number!");
-                System.out.println("What number will you choose? (1-10): ");
-                System.out.println("___________________________________");
-                // TIME FOR GAME FUNCTION: MEDIUMMODE
-                Scanner mediumUserInputScanner = new Scanner(System.in);
-                int mediumUserInputNum = mediumUserInputScanner.nextInt();
+                AcceptableNumberContainer acceptableNumber3 = new AcceptableNumberContainer();
+                acceptableNumber3.bool = true;
+                int mediumUserInputNum = 0;
+                while (acceptableNumber3.bool == true) {
+                    System.out.println("___________________________________");
+                    System.out.println("I see you have chosen Medium mode! This may be harder than you think! ");
+                    System.out.println("I will now think of a number between 1 and 10 and keep it hidden from you...");
+                    System.out.println("Ah yes. This number will do well I think!");
+                    System.out.println("Now it is time to guess! You must give me a number strictly greater than my number!");
+                    System.out.println("What number will you choose? (1-10): ");
+                    System.out.println("___________________________________");
+                    // TIME FOR GAME FUNCTION: MEDIUMMODE
+                    Scanner mediumUserInputScanner = new Scanner(System.in);
+                    mediumUserInputNum = mediumUserInputScanner.nextInt();
+                    tryUserNumberValidity(mediumUserInputNum, acceptableNumber3);
+                }
                 DealerNumContainer dealerNumber2 = new DealerNumContainer();
                 randomNumberGenerator(dealerNumber2);
                 comparisonEvaluator(difficultyInput, dealerNumber2.number, mediumUserInputNum);
@@ -86,16 +110,22 @@ public class Main {
             }
             else if (difficultyInput == 4) {
                 //Hard Mode
-                System.out.println("___________________________________");
-                System.out.println("I see you have chosen Hard mode! You are definitely brave I will give you that...");
-                System.out.println("I will now think of a number between 1 and 10 and keep it hidden from you...");
-                System.out.println("Ah yes. This number will do well I think!");
-                System.out.println("Now it is time to guess! You must give me a number EXACTLY EQUAL to my number!");
-                System.out.println("What number will you choose? (1-10): ");
-                System.out.println("___________________________________");
-                // TIME FOR GAME FUNCTION: HARDMODE
-                Scanner hardUserInputScanner = new Scanner(System.in);
-                int hardUserInputNum = hardUserInputScanner.nextInt();
+                AcceptableNumberContainer acceptableNumber4 = new AcceptableNumberContainer();
+                acceptableNumber4.bool = true;
+                int hardUserInputNum = 0;
+                while (acceptableNumber4.bool == true) {
+                    System.out.println("___________________________________");
+                    System.out.println("I see you have chosen Hard mode! You are definitely brave I will give you that...");
+                    System.out.println("I will now think of a number between 1 and 10 and keep it hidden from you...");
+                    System.out.println("Ah yes. This number will do well I think!");
+                    System.out.println("Now it is time to guess! You must give me a number EXACTLY EQUAL to my number!");
+                    System.out.println("What number will you choose? (1-10): ");
+                    System.out.println("___________________________________");
+                    // TIME FOR GAME FUNCTION: HARDMODE
+                    Scanner hardUserInputScanner = new Scanner(System.in);
+                    hardUserInputNum = hardUserInputScanner.nextInt();
+                    tryUserNumberValidity(hardUserInputNum, acceptableNumber4);
+                }
                 DealerNumContainer dealerNumber3 = new DealerNumContainer();
                 randomNumberGenerator(dealerNumber3);
                 comparisonEvaluator(difficultyInput, dealerNumber3.number, hardUserInputNum);
@@ -106,11 +136,6 @@ public class Main {
             else {
                 invalidInputError();
             }
-
-
-
-        
-
 
         //(Path.B2 -> B1 OR AB) (AB) Offer to exit explanation list OR (B1) return to difficulty explanation list)
 
@@ -170,8 +195,17 @@ public class Main {
     public static void invalidInputError() {
         System.out.println("_________________________");
         System.out.println("This is not a valid input! Please refer to the options listed and select the number for the option you wish to choose");
-        System.out.println("_________________________");
+        System.out.println("_________________________");    
     }
+    public static void invalidInputError2() {
+        System.out.println("_________________________");
+        System.out.println("This is not a valid input! Please refer to the options listed and select the number for the option you wish to choose");
+        System.out.println("Let's try again from the top... Maybe try reading the rules Traveler?");
+        System.out.println("_________________________");
+
+    }
+
+
     public static void randomNumberGenerator(DealerNumContainer returnedNum) {
         int max = 10;
         int min = 1;
@@ -220,12 +254,19 @@ public class Main {
             }
         }
         else {
-            System.out.println("_________________________");
-            System.out.println("This is not a valid input! Please refer to the options listed and select the number for the option you wish to choose");
-            System.out.println("Let's try again from the top... Maybe try reading the rules Traveler?");
-            System.out.println("_________________________");
+            invalidInputError2();
             return;
         }
+    }
+    public static void tryUserNumberValidity(int userNum, AcceptableNumberContainer bool) {
+            if (userNum >= 0 && userNum <= 10) {
+                bool.bool = false;
+            }
+            else {
+                invalidInputError2();
+                return;
+            }
+
     }
     public static void tryAgainFunc(int playerChoice, TryAgainContainer tryAgainOption) {
         if (playerChoice == 1) {
